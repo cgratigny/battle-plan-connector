@@ -4,6 +4,8 @@ FROM ruby:3.2.2
 # Install dependencies
 # For Ruby/Rails
 RUN apt-get update -qq && apt-get install -y \
+  nodejs \
+  npm \
   build-essential \
   libssl-dev \
   libreadline-dev \
@@ -12,8 +14,6 @@ RUN apt-get update -qq && apt-get install -y \
   libxml2-dev \
   libxslt1-dev \
   python3 \
-  nodejs \
-  npm \
   wkhtmltopdf \
   libmagickwand-dev \
   libsasl2-dev \
@@ -31,15 +31,14 @@ RUN apt-get update -qq && apt-get install -y \
   libreadline-dev \
   libcurl4-openssl-dev \
   libglib2.0-dev \
-  libtinfo5 \
-  postgresql-client
+  libtinfo5
   # And any other dependencies that might be missing
 
 # Here you can install mjml globally
-RUN npm install -g mjml
+# RUN npm install -g mjml
 
 # Set an environment variable to store where the app is installed to inside of the Docker image.
-ENV INSTALL_PATH /align_app
+ENV INSTALL_PATH /battle_planner_app
 RUN mkdir -p $INSTALL_PATH
 
 # This sets the context of where commands will be run in and is documented on Docker's website extensively.
@@ -80,7 +79,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 # RUN chmod +x /usr/bin/entrypoint.sh
 
 # Configure the main process to run when running the image
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+ENTRYPOINT ["./bin/docker-entrypoint"]
 
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 3000
