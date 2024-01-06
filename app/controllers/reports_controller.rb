@@ -66,6 +66,9 @@ class ReportsController < ApplicationController
   private
     def find_team
       @team = Podio::BattleTeam.find_by(team_id: params[:podio_battle_team_id])
+      unless @team.present?
+        redirect_to root_path, alert: "That team does not exist." 
+      end
     end
 
     # Only allow a list of trusted parameters through.
