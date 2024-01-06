@@ -8,6 +8,8 @@ module Podio
     include Podio
     before_save :set_team_hash
 
+    has_many :members, class_name: "Podio::Member", foreign_key: :podio_member_id
+
     scope :alphabetical, -> { order(name: :asc)}
 
     def users
